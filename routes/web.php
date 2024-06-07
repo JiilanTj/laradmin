@@ -3,6 +3,7 @@
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\ProductController;
+use App\Http\Controllers\ArticleController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
 
@@ -40,6 +41,8 @@ Route::middleware(['auth', 'role:superadmin'])->group(function () {
     Route::get('/superadmin/products/edit/{id}', [ProductController::class, 'edit'])->name('admin/superadmin/products/edit');
     Route::put('/superadmin/products/edit/{id}', [ProductController::class, 'update'])->name('admin/superadmin/products/update');
     Route::get('/superadmin/products/delete/{id}', [ProductController::class, 'delete'])->name('admin/superadmin/products/delete');
+    Route::resource('articles', ArticleController::class);
+    Route::post('articles/upload', [ArticleController::class, 'upload'])->name('articles.upload');
 });
 
 require __DIR__.'/auth.php';

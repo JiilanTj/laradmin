@@ -1,3 +1,5 @@
+<!-- resources/views/admin/superadmin/product/home.blade.php -->
+
 <x-app-layout>
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
@@ -7,7 +9,7 @@
 
     <div class="flex">
         @include('components.sidebar')
-        <div class="content" style="width: 80%; margin-left: 250px; padding: 20px; box-sizing: border-box; flex-grow: 1; background-color: #f7fafc;">
+        <div class="content" style="margin-left: 250px; padding: 20px; box-sizing: border-box; flex-grow: 1; background-color: #f7fafc;">
             <div class="py-12">
                 <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
                     <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
@@ -28,20 +30,12 @@
                                         <tr>
                                             <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">#</th>
                                             <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Title</th>
-                                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Description</th>
                                             <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Stock</th>
+                                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Total Fee</th>
                                             <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Modal</th>
-                                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Feedropship</th>
-                                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Feedokter</th>
-                                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Feeadmin</th>
-                                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Laba</th>
-                                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Feelayanan</th>
-                                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Hargacoret</th>
                                             <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Hargaasli</th>
+                                            {{-- <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Accesor</th> --}}
                                             <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Gambarutama</th>
-                                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Gambar1</th>
-                                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Gambar2</th>
-                                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Gambar3</th>
                                             <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Iskhusus</th>
                                             <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Action</th>
                                         </tr>
@@ -51,27 +45,13 @@
                                         <tr>
                                             <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">{{ $loop->iteration }}</td>
                                             <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{{ $product->title }}</td>
-                                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{{ $product->description }}</td>
                                             <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{{ $product->stock }}</td>
-                                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{{ $product->modal }}</td>
-                                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{{ $product->feedropship }}</td>
-                                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{{ $product->feedokter }}</td>
-                                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{{ $product->feeadmin }}</td>
-                                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{{ $product->laba }}</td>
-                                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{{ $product->feelayanan }}</td>
-                                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{{ $product->hargacoret }}</td>
-                                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{{ $product->hargaasli }}</td>
+                                            <td class="px-2 py-4 whitespace-nowrap text-sm text-gray-900">{{ $product->formatted_total_fee }}</td>
+                                            <td class="px-2 py-4 whitespace-nowrap text-sm text-gray-900">{{ $product->formatted_modal }}</td>
+                                            <td class="px-2 py-4 whitespace-nowrap text-sm text-gray-900">{{ $product->formatted_hargaasli }}</td>
+                                            {{-- <td class="px-2 py-4 whitespace-nowrap text-sm text-gray-900">{{ $product->gambarutama ?? 'Gambar Utama Tidak Tersedia' }}</td> --}}
                                             <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
                                                 <img src="{{ $product->gambarutama }}" alt="Gambar Utama" style="width: 100px; height: auto;">
-                                            </td>
-                                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                                                <img src="{{ $product->gambar1 }}" alt="Gambar 1" style="width: 100px; height: auto;">
-                                            </td>
-                                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                                                <img src="{{ $product->gambar2 }}" alt="Gambar 2" style="width: 100px; height: auto;">
-                                            </td>
-                                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                                                <img src="{{ $product->gambar3 }}" alt="Gambar 3" style="width: 100px; height: auto;">
                                             </td>
                                             <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{{ $product->iskhusus ? 'Yes' : 'No' }}</td>
                                             <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">

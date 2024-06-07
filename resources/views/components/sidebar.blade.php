@@ -13,7 +13,9 @@
         <li class="{{ request()->routeIs('admin/superadmin/products') ? 'active' : '' }}">
             <a href="{{ route('admin/superadmin/products') }}"><i class="fas fa-box-open"></i> Product</a>
         </li>
-        <li><a href="#"><i class="fas fa-newspaper"></i> Artikel</a></li>
+        <li class="{{ request()->routeIs('articles.index') ? 'active' : '' }}">
+            <a href="{{ route('articles.index') }}"><i class="fas fa-newspaper"></i> Articles</a>
+        </li>        
         <li><a href="#"><i class="fas fa-calendar-alt"></i> Jadwal Temu</a></li>
         <li><a href="#"><i class="fas fa-file-medical-alt"></i> ERM</a></li>
         <li><a href="#"><i class="fas fa-exchange-alt"></i> Transaksi</a></li>

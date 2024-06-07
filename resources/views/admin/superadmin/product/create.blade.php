@@ -12,14 +12,12 @@
             padding: 0;
             background-color: #f7fafc;
         }
-
         .container {
             max-width: 100%;
             margin: 0 auto;
             padding: 20px;
             box-sizing: border-box;
         }
-
         .header {
             background-color: #333;
             color: #fff;
@@ -27,12 +25,10 @@
             text-align: center;
             border-radius: 5px 5px 0 0;
         }
-
         .header h1 {
             margin: 0;
             font-size: 24px;
         }
-
         .content {
             margin-left: 250px;
             padding: 20px;
@@ -40,7 +36,6 @@
             background-color: #fff;
             flex-grow: 1;
         }
-
         .btn {
             display: inline-block;
             padding: 8px 16px;
@@ -51,28 +46,22 @@
             border-radius: 4px;
             transition: background-color 0.3s ease;
         }
-
         .btn-primary {
             background-color: #007bff;
             color: #fff;
         }
-
         .btn-primary:hover {
             background-color: #0056b3;
         }
-
         form {
             margin-top: 20px;
         }
-
         .form-group {
             margin-bottom: 20px;
         }
-
         label {
             font-weight: bold;
         }
-
         .form-control {
             width: 100%;
             padding: 8px;
@@ -80,7 +69,6 @@
             border-radius: 4px;
             box-sizing: border-box;
         }
-
         .text-danger {
             color: #dc3545;
         }
@@ -110,7 +98,7 @@
                                     {{ session('error') }}
                                 </div>
                             @endif
-                            <form action="{{ route('admin/superadmin/products/save') }}" method="POST" enctype="multipart/form-data">
+                            <form action="{{ route('admin/superadmin/products/save') }}" method="POST" enctype="multipart/form-data" id="product-form">
                                 @csrf
                                 <div class="form-group">
                                     <label for="title">Title</label>
@@ -135,49 +123,49 @@
                                 </div>
                                 <div class="form-group">
                                     <label for="modal">Modal</label>
-                                    <input type="number" name="modal" id="modal" class="form-control" placeholder="Modal">
+                                    <input type="text" name="modal" id="modal" class="form-control currency" placeholder="Modal">
                                     @error('modal')
                                         <span class="text-danger">{{ $message }}</span>
                                     @enderror
                                 </div>
                                 <div class="form-group">
                                     <label for="feedropship">Feedropship</label>
-                                    <input type="number" name="feedropship" id="feedropship" class="form-control" placeholder="Feedropship">
+                                    <input type="text" name="feedropship" id="feedropship" class="form-control currency" placeholder="Feedropship">
                                     @error('feedropship')
                                         <span class="text-danger">{{ $message }}</span>
                                     @enderror
                                 </div>
                                 <div class="form-group">
                                     <label for="feedokter">Feedokter</label>
-                                    <input type="number" name="feedokter" id="feedokter" class="form-control" placeholder="Feedokter">
+                                    <input type="text" name="feedokter" id="feedokter" class="form-control currency" placeholder="Feedokter">
                                     @error('feedokter')
                                         <span class="text-danger">{{ $message }}</span>
                                     @enderror
                                 </div>
                                 <div class="form-group">
                                     <label for="feeadmin">Feeadmin</label>
-                                    <input type="number" name="feeadmin" id="feeadmin" class="form-control" placeholder="Feeadmin">
+                                    <input type="text" name="feeadmin" id="feeadmin" class="form-control currency" placeholder="Feeadmin">
                                     @error('feeadmin')
                                         <span class="text-danger">{{ $message }}</span>
                                     @enderror
                                 </div>
                                 <div class="form-group">
-                                    <label for="laba">Laba</label>
-                                    <input type="number" name="laba" id="laba" class="form-control" placeholder="Laba">
-                                    @error('laba')
-                                        <span class="text-danger">{{ $message }}</span>
-                                    @enderror
-                                </div>
-                                <div class="form-group">
                                     <label for="feelayanan">Feelayanan</label>
-                                    <input type="number" name="feelayanan" id="feelayanan" class="form-control" placeholder="Feelayanan">
+                                    <input type="text" name="feelayanan" id="feelayanan" class="form-control currency" placeholder="Feelayanan">
                                     @error('feelayanan')
                                         <span class="text-danger">{{ $message }}</span>
                                     @enderror
                                 </div>
                                 <div class="form-group">
+                                    <label for="laba">Laba</label>
+                                    <input type="text" name="laba" id="laba" class="form-control currency" placeholder="Laba">
+                                    @error('laba')
+                                        <span class="text-danger">{{ $message }}</span>
+                                    @enderror
+                                </div>
+                                <div class="form-group">
                                     <label for="hargacoret">Hargacoret</label>
-                                    <input type="number" name="hargacoret" id="hargacoret" class="form-control" placeholder="Hargacoret">
+                                    <input type="text" name="hargacoret" id="hargacoret" class="form-control currency" placeholder="Hargacoret">
                                     @error('hargacoret')
                                         <span class="text-danger">{{ $message }}</span>
                                     @enderror
@@ -230,5 +218,29 @@
     </x-app-layout>
 
     <script src="{{ asset('js/app.js') }}"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const currencyFields = document.querySelectorAll('.currency');
+
+            currencyFields.forEach(field => {
+                field.addEventListener('input', function (e) {
+                    let value = e.target.value.replace(/[^\d]/g, '');
+                    if (value) {
+                        e.target.value = formatCurrency(value);
+                    }
+                });
+            });
+
+            document.getElementById('product-form').addEventListener('submit', function (e) {
+                currencyFields.forEach(field => {
+                    field.value = field.value.replace(/[^\d]/g, '');
+                });
+            });
+        });
+
+        function formatCurrency(value) {
+            return 'Rp ' + new Intl.NumberFormat('id-ID').format(value);
+        }
+    </script>
 </body>
 </html>

@@ -12,7 +12,13 @@ class ProductController extends Controller
     {
         $products = Product::orderBy('id', 'desc')->get();
         $total = Product::count();
-        return view('admin.superadmin.product.home', compact('products', 'total'));
+        $totalfee = 0;
+
+        foreach ($products as $product) {
+            $totalfee += $product->feedropship + $product->feedokter + $product->feeadmin + $product->feelayanan;
+        }
+
+        return view('admin.superadmin.product.home', compact('products', 'total', 'totalfee'));
     }
 
     public function create()
