@@ -8,8 +8,11 @@ use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
 
 Route::get('/', function () {
+    if (Auth::check()) {
+        return redirect('/dashboard');
+    }
     return view('welcome');
-});
+})->middleware('auth');
 
 Route::get('/dashboard', function () {
     $role = Auth::user()->role;

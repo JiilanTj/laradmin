@@ -14,7 +14,7 @@
                 <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
                     <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                         <div class="p-6 text-gray-900">
-                            <form action="{{ isset($article) ? route('articles.update', $article->id) : route('articles.store') }}" method="POST">
+                            <form action="{{ isset($article) ? route('articles.update', $article->id) : route('articles.store') }}" method="POST" enctype="multipart/form-data">
                                 @csrf
                                 @if(isset($article))
                                     @method('PUT')
@@ -23,6 +23,13 @@
                                     <label for="title" class="block text-gray-700 font-bold mb-2">Title</label>
                                     <input type="text" name="title" id="title" class="form-control border border-gray-300 p-2 rounded w-full" value="{{ isset($article) ? $article->title : old('title') }}">
                                     @error('title')
+                                        <span class="text-danger">{{ $message }}</span>
+                                    @enderror
+                                </div>
+                                <div class="form-group mb-4">
+                                    <label for="thumbnail" class="block text-gray-700 font-bold mb-2">Thumbnail Artikel</label>
+                                    <input type="file" name="thumbnail" id="thumbnail" class="form-control border border-gray-300 p-2 rounded w-full">
+                                    @error('thumbnail')
                                         <span class="text-danger">{{ $message }}</span>
                                     @enderror
                                 </div>
@@ -48,6 +55,15 @@
         CKEDITOR.replace('content', {
             filebrowserUploadUrl: "{{ route('articles.upload', ['_token' => csrf_token() ]) }}",
             filebrowserUploadMethod: 'form'
+        });
+
+        // Mengatur CSS untuk tampilan dialog gambar
+        document.addEventListener('DOMContentLoaded', () => {
+            const dialog = document.querySelector('.cke_dialog_body_contents');
+            if (dialog) {
+                dialog.style.maxWidth = '600px'; // Sesuaikan dengan kebutuhan
+                dialog.style.overflowX = 'auto'; // Munculkan scrollbar jika konten melebihi lebar
+            }
         });
     </script>
 </x-app-layout>

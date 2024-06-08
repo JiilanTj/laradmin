@@ -33,15 +33,25 @@ class ArticleController extends Controller
         $request->validate([
             'title' => 'required|string|max:255',
             'content' => 'required|string',
+            'thumbnail' => 'image|mimes:jpeg,png,jpg,gif|max:2048' // Max 2MB
         ]);
+
+        $content = $this->addDomainToImageUrls($request->content);
 
         $article = new Article();
         $article->title = $request->title;
-        $article->content = $request->content;
+        $article->content = $content;
+
+        if ($request->hasFile('thumbnail')) {
+            $path = $request->file('thumbnail')->store('thumbnails', 'public');
+            $article->thumbnail = Storage::url($path);
+        }
+
         $article->save();
 
         return redirect()->route('articles.index')->with('success', 'Article created successfully');
     }
+
 
     /**
      * Display the specified resource.
@@ -67,14 +77,46 @@ class ArticleController extends Controller
         $request->validate([
             'title' => 'required|string|max:255',
             'content' => 'required|string',
+            'thumbnail' => 'image|mimes:jpeg,png,jpg,gif|max:2048' // Max 2MB
         ]);
 
+        $content = $this->addDomainToImageUrls($request->content);
+
         $article->title = $request->title;
-        $article->content = $request->content;
+        $article->content = $content;
+
+        if ($request->hasFile('thumbnail')) {
+            // Delete the old thumbnail if it exists
+            if ($article->thumbnail) {
+                Storage::disk('public')->delete(str_replace('/storage', '', $article->thumbnail));
+            }
+
+            $path = $request->file('thumbnail')->store('thumbnails', 'public');
+            $article->thumbnail = Storage::url($path);
+        }
+
         $article->save();
 
         return redirect()->route('articles.index')->with('success', 'Article updated successfully');
     }
+
+
+    /**
+     * Add domain to image URLs in the content.
+     *
+     * @param string $content
+     * @return string
+     */
+    private function addDomainToImageUrls($content)
+    {
+        $domain = config('app.url'); // Use your application URL
+        $pattern = '/(<img[^>]+src=["\'])(\/storage[^"\']+)(["\'][^>]*>)/i';
+        $replacement = '$1' . $domain . '$2$3';
+
+        return preg_replace($pattern, $replacement, $content);
+    }
+
+
 
     /**
      * Remove the specified resource from storage.
