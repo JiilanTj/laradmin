@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Article;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 
 class ArticleController extends Controller
 {
@@ -43,15 +44,14 @@ class ArticleController extends Controller
         $article->content = $content;
 
         if ($request->hasFile('thumbnail')) {
-            $path = $request->file('thumbnail')->store('thumbnails', 'public');
-            $article->thumbnail = Storage::url($path);
+            $path = $this->saveImage($request->file('thumbnail'));
+            $article->thumbnail = 'images/' . $path;
         }
 
         $article->save();
 
         return redirect()->route('articles.index')->with('success', 'Article created successfully');
     }
-
 
     /**
      * Display the specified resource.
@@ -88,18 +88,20 @@ class ArticleController extends Controller
         if ($request->hasFile('thumbnail')) {
             // Delete the old thumbnail if it exists
             if ($article->thumbnail) {
-                Storage::disk('public')->delete(str_replace('/storage', '', $article->thumbnail));
+                $oldPath = public_path(str_replace('/storage', 'images', $article->thumbnail));
+                if (file_exists($oldPath)) {
+                    unlink($oldPath);
+                }
             }
 
-            $path = $request->file('thumbnail')->store('thumbnails', 'public');
-            $article->thumbnail = Storage::url($path);
+            $path = $this->saveImage($request->file('thumbnail'));
+            $article->thumbnail = 'images/' . $path;
         }
 
         $article->save();
 
         return redirect()->route('articles.index')->with('success', 'Article updated successfully');
     }
-
 
     /**
      * Add domain to image URLs in the content.
@@ -115,8 +117,6 @@ class ArticleController extends Controller
 
         return preg_replace($pattern, $replacement, $content);
     }
-
-
 
     /**
      * Remove the specified resource from storage.
@@ -134,8 +134,8 @@ class ArticleController extends Controller
     {
         if ($request->hasFile('upload')) {
             $file = $request->file('upload');
-            $path = $file->store('uploads', 'public');
-            $url = Storage::url($path);
+            $path = $this->saveImage($file);
+            $url = asset('images/' . $path);
 
             return response()->json([
                 'url' => $url
@@ -143,5 +143,18 @@ class ArticleController extends Controller
         }
 
         return response()->json(['error' => 'No file uploaded'], 400);
+    }
+
+    /**
+     * Save the image to the public/images directory.
+     *
+     * @param \Illuminate\Http\UploadedFile $image
+     * @return string
+     */
+    private function saveImage($image)
+    {
+        $filename = Str::random(20) . '.' . $image->getClientOriginalExtension();
+        $image->move(public_path('images'), $filename);
+        return $filename;
     }
 }

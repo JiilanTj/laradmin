@@ -5,10 +5,12 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Laravel\Sanctum\HasApiTokens;
 
 class User extends Authenticatable
 {
     use HasFactory, Notifiable;
+    use HasApiTokens;
 
     // Define user roles
     const ROLE_USER = 'user';
@@ -25,6 +27,12 @@ class User extends Authenticatable
         'email',
         'password',
         'role', // Add role to fillable
+        'no_handphone',
+        'alamat_lengkap',
+        'jenis_kelamin',
+        'alergi_obat',
+        'keterangan_alergi',
+        'tanggal_lahir',
     ];
 
     /**
@@ -48,6 +56,7 @@ class User extends Authenticatable
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
             'role' => 'string', // Add role to casts
+            'alergi_obat' => 'boolean', // Cast alergi_obat to boolean
         ];
     }
 }
