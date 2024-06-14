@@ -6,8 +6,16 @@
         <li class="{{ request()->routeIs('superadmin.index') ? 'active' : '' }}">
             <a href="{{ route('superadmin.index') }}"><i class="fas fa-tachometer-alt"></i> Dashboard</a>
         </li>
-        <li class="{{ request()->routeIs('superadmin.users') ? 'active' : '' }}">
-            <a href="{{ route('superadmin.users') }}"><i class="fas fa-users"></i> Users</a>
+        <li class="has-submenu {{ request()->routeIs('users.index') || request()->routeIs('users.admin') ? 'active' : '' }}">
+            <a href="javascript:void(0)" class="submenu-toggle"><i class="fas fa-users"></i> Users</a>
+            <ul class="submenu">
+                <li class="{{ request()->routeIs('users.index') ? 'active' : '' }}">
+                    <a href="{{ route('users.index') }}">Pengguna</a>
+                </li>
+                <li class="{{ request()->routeIs('users.admin') ? 'active' : '' }}">
+                    <a href="{{ route('users.admin') }}">Admin</a>
+                </li>
+            </ul>
         </li>
         <li><a href="#"><i class="fas fa-database"></i> Master Data</a></li>
         <li class="{{ request()->routeIs('admin/superadmin/products') ? 'active' : '' }}">
@@ -15,7 +23,7 @@
         </li>
         <li class="{{ request()->routeIs('articles.index') ? 'active' : '' }}">
             <a href="{{ route('articles.index') }}"><i class="fas fa-newspaper"></i> Articles</a>
-        </li>        
+        </li>
         <li><a href="#"><i class="fas fa-calendar-alt"></i> Jadwal Temu</a></li>
         <li><a href="#"><i class="fas fa-file-medical-alt"></i> ERM</a></li>
         <li><a href="#"><i class="fas fa-exchange-alt"></i> Transaksi</a></li>
@@ -113,4 +121,25 @@
     .logout-form {
         margin: 0;
     }
+
+    .has-submenu .submenu {
+        display: none;
+        padding-left: 20px;
+    }
+
+    .has-submenu.open .submenu {
+        display: block;
+    }
 </style>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        var toggles = document.querySelectorAll('.submenu-toggle');
+        toggles.forEach(function(toggle) {
+            toggle.addEventListener('click', function() {
+                var parent = this.parentElement;
+                parent.classList.toggle('open');
+            });
+        });
+    });
+</script>

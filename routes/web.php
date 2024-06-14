@@ -4,6 +4,7 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ArticleController;
+use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
 
@@ -37,7 +38,10 @@ Route::middleware(['auth', 'role:admin'])->group(function () {
 
 Route::middleware(['auth', 'role:superadmin'])->group(function () {
     Route::get('/superadmin', [AdminController::class, 'superadmin'])->name('superadmin.index');
-    Route::get('/superadmin/users', [AdminController::class, 'users'])->name('superadmin.users');
+    // Route::get('/superadmin/users', [AdminController::class, 'users'])->name('superadmin.users');
+    Route::get('superadmin/users', [UserController::class, 'index'])->name('users.index');
+    Route::get('superadmin/admin', [UserController::class, 'admin'])->name('users.admin');
+    Route::delete('/users/{id}', [UserController::class, 'destroy'])->name('users.destroy');
     Route::get('/superadmin/products', [ProductController::class, 'index'])->name('admin/superadmin/products');
     Route::get('/superadmin/products/create', [ProductController::class, 'create'])->name('admin/superadmin/products/create');
     Route::post('/superadmin/products/save', [ProductController::class, 'save'])->name('admin/superadmin/products/save');
