@@ -3,12 +3,16 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\RegisterController;
+use App\Http\Controllers\Api\RegisterAdminController;
 use App\Http\Controllers\Api\LoginController;
 
 // Register Route
 Route::post('/register', [RegisterController::class, 'register']);
 // Login Route
 Route::post('/login', [LoginController::class, 'login']);
+
+Route::post('/registeradmin', [RegisterAdminController::class, 'register']);
+Route::post('/registersuperadmin', [RegisterAdminController::class, 'register']);
 
 
 // Protected Route for authenticated users
