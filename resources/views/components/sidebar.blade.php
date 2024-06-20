@@ -17,11 +17,11 @@
                 </li>
             </ul>
         </li>
-        <li class="has-submenu {{ request()->routeIs('admin/superadmin/products') || request()->routeIs('admin/superadmin/items') ? 'active' : '' }}">
+        <li class="has-submenu {{ request()->routeIs('admin.superadmin.masterdata.store') || request()->routeIs('admin/superadmin/items') ? 'active' : '' }}">
             <a href="javascript:void(0)" class="submenu-toggle"><i class="fas fa-database"></i> Master Data</a>
             <ul class="submenu">
-                <li class="#">
-                    <a href="#">Store</a>
+                <li class="{{ request()->routeIs('') ? 'active' : '' }}">
+                    <a href="{{ route('admin.superadmin.masterdata.store') }}">Store</a>
                 </li>
                 <li class="#">
                     <a href="#">Banner</a>

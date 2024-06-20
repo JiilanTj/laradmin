@@ -6,6 +6,7 @@ use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ArticleController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\ItemController;
+use App\Http\Controllers\StoreController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
 
@@ -57,6 +58,12 @@ Route::middleware(['auth', 'role:superadmin'])->group(function () {
     Route::get('/superadmin/items/edit/{id}', [ItemController::class, 'edit'])->name('admin/superadmin/items/edit');
     Route::put('/superadmin/items/edit/{id}', [ItemController::class, 'update'])->name('admin/superadmin/items/update');
     Route::get('/superadmin/items/delete/{id}', [ItemController::class, 'delete'])->name('admin/superadmin/items/delete');
+    Route::get('/superadmin/masterdata/stores', [StoreController::class, 'index'])->name('admin.superadmin.masterdata.store');
+    Route::get('/superadmin/masterdata/stores/create', [StoreController::class, 'create'])->name('admin.superadmin.masterdata.store.create');
+    Route::post('/superadmin/masterdata/stores/save', [StoreController::class, 'save'])->name('admin.superadmin.masterdata.store.save');
+    Route::get('/superadmin/masterdata/stores/edit/{id}', [StoreController::class, 'edit'])->name('admin.superadmin.masterdata.store.edit');
+    Route::put('/superadmin/masterdata/stores/edit/{id}', [StoreController::class, 'update'])->name('admin.superadmin.masterdata.store.update');
+    Route::get('/superadmin/masterdata/stores/delete/{id}', [StoreController::class, 'delete'])->name('admin.superadmin.masterdata.store.delete');
 });
 
 require __DIR__.'/auth.php';
