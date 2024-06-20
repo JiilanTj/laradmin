@@ -5,6 +5,7 @@ use App\Http\Controllers\AdminController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ArticleController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\ItemController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
 
@@ -50,6 +51,12 @@ Route::middleware(['auth', 'role:superadmin'])->group(function () {
     Route::get('/superadmin/products/delete/{id}', [ProductController::class, 'delete'])->name('admin/superadmin/products/delete');
     Route::resource('articles', ArticleController::class);
     Route::post('articles/upload', [ArticleController::class, 'upload'])->name('articles.upload');
+    Route::get('/superadmin/items', [ItemController::class, 'index'])->name('admin/superadmin/items');
+    Route::get('/superadmin/items/create', [ItemController::class, 'create'])->name('admin/superadmin/items/create');
+    Route::post('/superadmin/items/save', [ItemController::class, 'save'])->name('admin/superadmin/items/save');
+    Route::get('/superadmin/items/edit/{id}', [ItemController::class, 'edit'])->name('admin/superadmin/items/edit');
+    Route::put('/superadmin/items/edit/{id}', [ItemController::class, 'update'])->name('admin/superadmin/items/update');
+    Route::get('/superadmin/items/delete/{id}', [ItemController::class, 'delete'])->name('admin/superadmin/items/delete');
 });
 
 require __DIR__.'/auth.php';

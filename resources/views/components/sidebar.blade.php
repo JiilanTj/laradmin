@@ -17,9 +17,30 @@
                 </li>
             </ul>
         </li>
-        <li><a href="#"><i class="fas fa-database"></i> Master Data</a></li>
-        <li class="{{ request()->routeIs('admin/superadmin/products') ? 'active' : '' }}">
-            <a href="{{ route('admin/superadmin/products') }}"><i class="fas fa-box-open"></i> Product</a>
+        <li class="has-submenu {{ request()->routeIs('admin/superadmin/products') || request()->routeIs('admin/superadmin/items') ? 'active' : '' }}">
+            <a href="javascript:void(0)" class="submenu-toggle"><i class="fas fa-database"></i> Master Data</a>
+            <ul class="submenu">
+                <li class="#">
+                    <a href="#">Store</a>
+                </li>
+                <li class="#">
+                    <a href="#">Banner</a>
+                </li>
+                <li class="#">
+                    <a href="#">Point Transaksi</a>
+                </li>
+            </ul>
+        </li>
+        <li class="has-submenu {{ request()->routeIs('admin/superadmin/products') || request()->routeIs('admin/superadmin/items') ? 'active' : '' }}">
+            <a href="javascript:void(0)" class="submenu-toggle"><i class="fas fa-box-open"></i> Product</a>
+            <ul class="submenu">
+                <li class="{{ request()->routeIs('admin/superadmin/products') ? 'active' : '' }}">
+                    <a href="{{ route('admin/superadmin/products') }}">Katalog</a>
+                </li>
+                <li class="{{ request()->routeIs('admin/superadmin/items') ? 'active' : '' }}">
+                    <a href="{{ route('admin/superadmin/items') }}">Item</a>
+                </li>
+            </ul>
         </li>
         <li class="{{ request()->routeIs('articles.index') ? 'active' : '' }}">
             <a href="{{ route('articles.index') }}"><i class="fas fa-newspaper"></i> Articles</a>
